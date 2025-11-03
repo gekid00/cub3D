@@ -25,20 +25,15 @@ test_map() {
     
     # Tester la map
     has_leak=0
-    VALGRIND_OPTS="--leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=42"
+    VALGRIND_OPTS="--leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --error-exitcode=42"
     
-    if [ "$should_pass" = "valid" ]; then
-        # Maps valides : sans valgrind (ouvrent une fenêtre MLX, impossibles à tester avec valgrind)
-        timeout 2 ./cub3D "$map" > /dev/null 2>&1
-        exit_code=$?
-    else
-        # Maps invalides : avec valgrind complet (sortent immédiatement avec erreur)
-        timeout 2 valgrind $VALGRIND_OPTS ./cub3D "$map" > /dev/null 2>&1
-        exit_code=$?
-        # Vérifier si leak détecté
-        if [ $exit_code -eq 42 ]; then
-            has_leak=1
-        fi
+    # Tester avec valgrind pour toutes les maps (valides et invalides)
+    timeout 3 valgrind $VALGRIND_OPTS ./cub3D "$map" > /dev/null 2>&1
+    exit_code=$?
+    
+    # Vérifier si leak détecté
+    if [ $exit_code -eq 42 ]; then
+        has_leak=1
     fi
     
     # Vérifier le résultat
@@ -73,8 +68,7 @@ echo -e "${YELLOW}========================================${NC}"
 echo -e "${YELLOW}    CUB3D MAP VALIDATION TEST SUITE    ${NC}"
 echo -e "${YELLOW}========================================${NC}"
 
-echo -e "${YELLOW}Valgrind activé sur maps invalides (détection memory leaks)${NC}"
-echo -e "${YELLOW}Note: Maps valides non testées avec valgrind (ouvrent fenêtre MLX)${NC}"
+echo -e "${YELLOW}Valgrind activé sur TOUTES les maps (détection memory leaks)${NC}"
 
 # Vérifier que l'exécutable existe
 if [ ! -f "./cub3D" ]; then
@@ -162,6 +156,86 @@ test_map "test_maps/invalid/big_map_hole_middle.cub" "invalid" "Big map avec tro
 test_map "test_maps/invalid/big_map_space_border.cub" "invalid" "Big map avec espace au bord gauche"
 test_map "test_maps/invalid/big_map_open_bottom.cub" "invalid" "Big map ouverte en bas (ligne 0 après mur)"
 test_map "test_maps/invalid/big_map_hole_right.cub" "invalid" "Big map avec trou au bord droit"
+
+# ============================================
+# TESTS AVANCÉS : ERREURS DE CONFIGURATION
+# ============================================
+echo -e "\n${YELLOW}=== TESTS AVANCÉS: ERREURS DE CONFIGURATION ===${NC}"
+
+test_map "test_maps/invalid_advanced/config_all_missing.cub" "invalid" "Aucune configuration"
+test_map "test_maps/invalid_advanced/config_triple_no.cub" "invalid" "Triple déclaration NO"
+test_map "test_maps/invalid_advanced/config_color_256.cub" "invalid" "Couleur = 256"
+test_map "test_maps/invalid_advanced/config_color_empty_value.cub" "invalid" "Couleur avec valeur vide"
+test_map "test_maps/invalid_advanced/config_color_float.cub" "invalid" "Couleur avec float"
+test_map "test_maps/invalid_advanced/config_color_four_values.cub" "invalid" "Couleur avec 4 valeurs"
+test_map "test_maps/invalid_advanced/config_texture_no_path.cub" "invalid" "Texture sans chemin"
+test_map "test_maps/invalid_advanced/config_unknown_id.cub" "invalid" "Identifiant inconnu XY"
+test_map "test_maps/invalid_advanced/config_double_ceiling.cub" "invalid" "Double couleur plafond"
+test_map "test_maps/invalid_advanced/config_color_negative_one.cub" "invalid" "Couleur -1"
+
+# ============================================
+# TESTS AVANCÉS : ERREURS DE STRUCTURE
+# ============================================
+echo -e "\n${YELLOW}=== TESTS AVANCÉS: ERREURS DE STRUCTURE ===${NC}"
+
+test_map "test_maps/invalid_advanced/structure_no_map_at_all.cub" "invalid" "Pas de map du tout"
+test_map "test_maps/invalid_advanced/structure_empty_lines_in_map.cub" "invalid" "Lignes vides dans la map"
+test_map "test_maps/invalid_advanced/structure_tab_in_map.cub" "invalid" "Tab dans la map"
+test_map "test_maps/invalid_advanced/structure_text_after_map.cub" "invalid" "Texte après la map"
+test_map "test_maps/invalid_advanced/structure_no_newline_before_map.cub" "invalid" "Pas de newline avant map"
+test_map "test_maps/invalid_advanced/structure_super_long_line.cub" "invalid" "Ligne extrêmement longue"
+test_map "test_maps/invalid_advanced/structure_one_char_map.cub" "invalid" "Map d'un seul caractère"
+test_map "test_maps/invalid_advanced/structure_special_char_at.cub" "invalid" "Caractère spécial @"
+test_map "test_maps/invalid_advanced/structure_only_three_lines.cub" "invalid" "Seulement 3 lignes"
+test_map "test_maps/invalid_advanced/structure_irregular_last_line.cub" "invalid" "Dernière ligne irrégulière"
+
+# ============================================
+# TESTS AVANCÉS : ERREURS DE FERMETURE
+# ============================================
+echo -e "\n${YELLOW}=== TESTS AVANCÉS: ERREURS DE FERMETURE ===${NC}"
+
+test_map "test_maps/invalid_advanced/walls_all_start_with_space.cub" "invalid" "Toutes lignes commencent par espace"
+test_map "test_maps/invalid_advanced/walls_space_in_top_right.cub" "invalid" "Espace en haut à droite"
+test_map "test_maps/invalid_advanced/walls_space_next_to_player.cub" "invalid" "Espace à côté du joueur"
+test_map "test_maps/invalid_advanced/walls_corner_missing_bottom_right.cub" "invalid" "Coin manquant bas droite"
+test_map "test_maps/invalid_advanced/walls_corner_missing_top_left.cub" "invalid" "Coin manquant haut gauche"
+test_map "test_maps/invalid_advanced/walls_hole_in_bottom_wall.cub" "invalid" "Trou dans le mur du bas"
+test_map "test_maps/invalid_advanced/walls_zero_on_left_middle.cub" "invalid" "Zero sur le bord gauche"
+test_map "test_maps/invalid_advanced/walls_isolated_wall_inside.cub" "invalid" "Mur isolé à l'intérieur"
+test_map "test_maps/invalid_advanced/walls_zero_bottom_corner.cub" "invalid" "Zero dans le coin du bas"
+test_map "test_maps/invalid_advanced/walls_all_spaces_inside.cub" "invalid" "Espaces partout à l'intérieur"
+
+# ============================================
+# TESTS AVANCÉS : ERREURS DE JOUEUR
+# ============================================
+echo -e "\n${YELLOW}=== TESTS AVANCÉS: ERREURS DE JOUEUR ===${NC}"
+
+test_map "test_maps/invalid_advanced/player_missing.cub" "invalid" "Joueur manquant"
+test_map "test_maps/invalid_advanced/player_two_directions.cub" "invalid" "Deux directions (N et S)"
+test_map "test_maps/invalid_advanced/player_two_on_same_line.cub" "invalid" "Deux joueurs sur même ligne"
+test_map "test_maps/invalid_advanced/player_wrong_direction_X.cub" "invalid" "Direction X invalide"
+test_map "test_maps/invalid_advanced/player_lowercase_n.cub" "invalid" "Direction minuscule n"
+test_map "test_maps/invalid_advanced/player_four_players.cub" "invalid" "Quatre joueurs"
+test_map "test_maps/invalid_advanced/player_number_two.cub" "invalid" "Chiffre 2 au lieu de joueur"
+test_map "test_maps/invalid_advanced/player_alone_no_walls.cub" "invalid" "Joueur seul sans murs"
+test_map "test_maps/invalid_advanced/player_surrounded_by_walls.cub" "invalid" "Joueur entouré de murs"
+test_map "test_maps/invalid_advanced/player_15_players.cub" "invalid" "15 joueurs"
+
+# ============================================
+# TESTS AVANCÉS : EDGE CASES EXTRÊMES
+# ============================================
+echo -e "\n${YELLOW}=== TESTS AVANCÉS: EDGE CASES EXTRÊMES ===${NC}"
+
+test_map "test_maps/invalid_advanced/extreme_color_overflow.cub" "invalid" "Overflow couleur (4294967295)"
+test_map "test_maps/invalid_advanced/extreme_2x2_map.cub" "invalid" "Map 2x2"
+test_map "test_maps/invalid_advanced/extreme_very_tall.cub" "invalid" "Map très haute (50 lignes)"
+test_map "test_maps/invalid_advanced/extreme_very_wide.cub" "invalid" "Map très large"
+test_map "test_maps/invalid_advanced/extreme_extra_line_after.cub" "invalid" "Lignes supplémentaires après map"
+test_map "test_maps/invalid_advanced/extreme_single_column.cub" "invalid" "Une seule colonne"
+test_map "test_maps/invalid_advanced/extreme_single_row.cub" "invalid" "Une seule ligne"
+test_map "test_maps/invalid_advanced/extreme_line_cut_short.cub" "invalid" "Ligne coupée court"
+test_map "test_maps/invalid_advanced/extreme_color_lots_of_spaces.cub" "invalid" "Couleur avec beaucoup d'espaces"
+test_map "test_maps/invalid_advanced/extreme_all_black.cub" "invalid" "Tout noir (0,0,0)"
 
 # Test sans arguments
 echo -e "\n${BLUE}Test $((TOTAL + 1)): Programme sans arguments${NC}"

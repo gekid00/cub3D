@@ -1,10 +1,10 @@
-NO	./textures/backroom.xpm
+NO  ./textures/backroom.xpm
 SO	./textures/backroom.xpm
 EA	./textures/backroom.xpm
 WE	./textures/backroom.xpm
 
-F	130, 87, 7
-C	204, 157, 4
+F 130,87,7
+C 04,157,4
 
 111                1111              11111111111111111111111
 1S1                1001              10000000000000000000001

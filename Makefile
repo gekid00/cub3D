@@ -6,7 +6,7 @@
 #    By: rbourkai <rbourkai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/12 01:42:13 by gekido            #+#    #+#              #
-#    Updated: 2025/11/03 12:57:55 by rbourkai         ###   ########.fr        #
+#    Updated: 2025/11/03 16:59:47 by rbourkai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,7 @@ ${NAME}		: ${OBJS} ${CUB3D}
 			${CC} ${CFLAGS} ${OBJS} ${MLX}  -o $(NAME) 
 
 %.o 		: %.c
+			${MAKE} -C ./minilibx-linux
 			${CC} ${CFLAGS} -c $< -o $@ 
 
 clean		:
