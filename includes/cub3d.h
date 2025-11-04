@@ -163,7 +163,7 @@ int				check_flood_fill(t_data *game, int x, int y);
 void			flood_fill(t_data *game, int x, int y);
 char			**cpy_pars(t_data *game);
 void			ft_free(t_data *game);
-void			ft_strcpy(char *str, char *str1);
+void			ft_strcpy(char *str, char *str1, int max_len);
 void			move_left(t_data *game, t_ray *player);
 void			move_right(t_data *game, t_ray *player);
 void			move_up(t_data *game, t_ray *player);

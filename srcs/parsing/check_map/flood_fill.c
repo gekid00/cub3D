@@ -19,23 +19,36 @@ int	check_flood_fill(t_data *game, int x, int y)
 
 void	flood_fill(t_data *game, int x, int y)
 {
-	if (y < 0 || x < 0 || !game->pars_temp[y]
-		|| x >= (int)ft_strlen(game->pars_temp[y]))
+	char	original_char;
+
+	if (y < 0 || x < 0 || !game->pars_temp[y])
 	{
 		game->path_error = 1;
 		write(2, "Error\nMap not closed: player can reach outside\n", 48);
 		return ;
 	}
-	if (game->pars_temp[y][x] == '1' || game->pars_temp[y][x] == 'X')
-		return ;
-	if (is_whitespace(game->pars[y][x]))
+	if (x >= (int)ft_strlen(game->pars_temp[y]))
 	{
 		game->path_error = 1;
+		write(2, "Error\nMap not closed: player can reach outside\n", 48);
 		return ;
 	}
-	if (game->pars[y][x] == 'N' || game->pars[y][x] == 'S' ||
-			game->pars[y][x] == 'E' || game->pars[y][x] == 'W'
-			|| game->pars[y][x] == '0')
+	if (game->pars_temp[y][x] == '1')
+		return ;
+	if (game->pars_temp[y][x] == 'X')
+		return ;
+	if (x >= (int)ft_strlen(game->pars[y]) || game->pars[y][x] == '\n')
+		return ;
+	original_char = game->pars[y][x];
+	if (is_whitespace(original_char))
+	{
+		game->path_error = 1;
+		write(2, "Error\nMap not closed: player can reach outside\n", 48);
+		return ;
+	}
+	if (original_char == 'N' || original_char == 'S' ||
+			original_char == 'E' || original_char == 'W'
+			|| original_char == '0')
 		game->pars_temp[y][x] = 'X';
 	flood_fill(game, x + 1, y);
 	flood_fill(game, x - 1, y);
@@ -43,7 +56,7 @@ void	flood_fill(t_data *game, int x, int y)
 	flood_fill(game, x, y - 1);
 }
 
-void	ft_strcpy(char *str, char *str1)
+void	ft_strcpy(char *str, char *str1, int max_len)
 {
 	int	i;
 
@@ -53,19 +66,26 @@ void	ft_strcpy(char *str, char *str1)
 		str[i] = str1[i];
 		i++;
 	}
+	while (i < max_len)
+	{
+		str[i] = ' ';
+		i++;
+	}
 	str[i] = '\0';
 }
 
 char	**cpy_pars(t_data *game)
 {
 	int	i;
+	int	max_len;
 
 	i = 0;
+	max_len = len(game);
 	game->pars_temp = malloc(((game->nbr) + 1) * sizeof(char *));
 	while (game->pars[i])
 	{
-		game->pars_temp[i] = malloc((len(game) + 1) * sizeof(char));
-		ft_strcpy(game->pars_temp[i], game->pars[i]);
+		game->pars_temp[i] = malloc((max_len + 1) * sizeof(char));
+		ft_strcpy(game->pars_temp[i], game->pars[i], max_len);
 		i++;
 	}
 	game->pars_temp[i] = NULL;

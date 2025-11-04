@@ -28,7 +28,7 @@ test_map() {
     VALGRIND_OPTS="--leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --error-exitcode=42"
     
     # Tester avec valgrind pour toutes les maps (valides et invalides)
-    timeout 3 valgrind $VALGRIND_OPTS ./cub3D "$map" > /dev/null 2>&1
+    timeout 2 valgrind $VALGRIND_OPTS ./cub3D "$map" > /dev/null 2>&1
     exit_code=$?
     
     # Vérifier si leak détecté
