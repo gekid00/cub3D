@@ -1,6 +1,6 @@
-NO ./assets/xpm/wall/test/wall4.xpm
-WE ./assets/xpm/wall/test/wall4.xpm
-SO ./assets/xpm/wall/test/wall4.xpm
+NO ./textures/north.xpm
+WE ./textures/north.xpm
+SO ./textures/north.xpm
 EA /norminet
 
 C 20,20,20

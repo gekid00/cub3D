@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_textures.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acrusoe <acrusoe@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gekido <gekido@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 00:00:00 by acrusoe           #+#    #+#             */
-/*   Updated: 2025/11/03 14:33:16 by acrusoe          ###   ########.fr       */
+/*   Updated: 2025/11/06 13:56:23 by gekido           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	init_image(t_data *game, char *file)
 			&game->we_text->icon_w, &game->we_text->icon_h);
 	game->ea_text->img = mlx_xpm_file_to_image(game->mlx, game->ea_text->path,
 			&game->ea_text->icon_w, &game->ea_text->icon_h);
-	if (!game->we_text->img || !game->so_text->img || !game->ea_text->img || !game->no_text->img)
+	if (!game->we_text->img || !game->so_text->img
+		|| !game->ea_text->img || !game->no_text->img)
 	{
 		write(1, "test", 4);
 		ft_close(game);

@@ -1,7 +1,7 @@
-NO ./assets/xpm/wall/test/wall4.xpm
-EA ./assets/xpm/wall/test/wall4.xpm
+NO ./textures/north.xpm
+EA ./textures/north.xpm
 WE ./sprites/no_read.xpm
-SO ./assets/xpm/wall/test/wall4.xpm
+SO ./textures/north.xpm
 
 
 C 20,20,20
