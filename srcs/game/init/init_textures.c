@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_textures.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gekido <gekido@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rbourkai <rbourkai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 00:00:00 by acrusoe           #+#    #+#             */
-/*   Updated: 2025/11/06 13:56:23 by gekido           ###   ########.fr       */
+/*   Updated: 2025/11/07 14:07:17 by rbourkai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	init_image(t_data *game, char *file)
 	if (!game->we_text->img || !game->so_text->img
 		|| !game->ea_text->img || !game->no_text->img)
 	{
-		write(1, "test", 4);
+		write(1, "Error\n", 6);
+		write(1, "Invalid texture\n", 17);
 		ft_close(game);
 	}
 	if (!init_addr(game))

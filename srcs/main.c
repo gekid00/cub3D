@@ -61,9 +61,10 @@ void	mlx_and_map_init(t_data *game, t_ray *player, char **av)
 		ft_close1(game);
 	initiate_mlx(game, av[1]);
 	init_player_variables(player, game);
-	renderframe(game, player);
 	mlx_hook(game->mlx_win, KEY_PRESS, 1L << 0, &key_hook, game);
+	mlx_hook(game->mlx_win, 3, 1L << 1, &key_release, game);
 	mlx_hook(game->mlx_win, KEY_EXIT, 1L << 0, &ft_close, game);
+	mlx_loop_hook(game->mlx, &game_loop, game);
 	mlx_loop(game->mlx);
 }
 
@@ -82,11 +83,16 @@ void	init_structs(t_data **game, t_ray **player, char **av)
 	initiate(*game);
 }
 
-int	main(int ac, char **av)
+int	main(int ac, char **av, char **env)
 {
 	t_data	*game;
 	t_ray	*player;
 
+	if (!env || !env[0])
+	{
+		write(2, "Error\nEnvironment required\n", 28);
+		return (1);
+	}
 	check_arg(ac, av[1]);
 	init_structs(&game, &player, av);
 	if (!parsing_info(game, av[1]))

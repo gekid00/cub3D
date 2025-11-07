@@ -36,20 +36,54 @@ void	check_position(t_data *game)
 
 int	key_hook(int keycode, t_data *game)
 {
-	if (keycode == KEY_LEFT)
-		rotate_left(game->ray);
-	if (keycode == KEY_RIGHT)
-		rotate_right(game->ray);
 	if (keycode == KEY_W)
-		move_up(game, game->ray);
+		game->key_w = 1;
 	if (keycode == KEY_S)
-		move_down(game, game->ray);
+		game->key_s = 1;
 	if (keycode == KEY_A)
-		move_left(game, game->ray);
+		game->key_a = 1;
 	if (keycode == KEY_D)
-		move_right(game, game->ray);
+		game->key_d = 1;
+	if (keycode == KEY_LEFT)
+		game->key_left = 1;
+	if (keycode == KEY_RIGHT)
+		game->key_right = 1;
 	if (keycode == KEY_ESC)
 		ft_close(game);
+	return (0);
+}
+
+int	key_release(int keycode, t_data *game)
+{
+	if (keycode == KEY_W)
+		game->key_w = 0;
+	if (keycode == KEY_S)
+		game->key_s = 0;
+	if (keycode == KEY_A)
+		game->key_a = 0;
+	if (keycode == KEY_D)
+		game->key_d = 0;
+	if (keycode == KEY_LEFT)
+		game->key_left = 0;
+	if (keycode == KEY_RIGHT)
+		game->key_right = 0;
+	return (0);
+}
+
+int	game_loop(t_data *game)
+{
+	if (game->key_w)
+		move_up(game, game->ray);
+	if (game->key_s)
+		move_down(game, game->ray);
+	if (game->key_a)
+		move_left(game, game->ray);
+	if (game->key_d)
+		move_right(game, game->ray);
+	if (game->key_left)
+		rotate_left(game->ray);
+	if (game->key_right)
+		rotate_right(game->ray);
 	renderframe(game, game->ray);
 	return (0);
 }

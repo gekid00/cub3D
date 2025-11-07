@@ -36,8 +36,8 @@
 # define KEY_RIGHT 65363
 # define KEY_LEFT 65361
 
-# define ROTATION_SPEED 0.05
-# define MOVE_SPEED 0.05
+# define ROTATION_SPEED 0.01
+# define MOVE_SPEED 0.01
 
 # include <unistd.h>
 # include <fcntl.h>
@@ -102,6 +102,12 @@ typedef struct s_data
 	int			ea;
 	int			f;
 	int			c;
+	int			key_w;
+	int			key_a;
+	int			key_s;
+	int			key_d;
+	int			key_left;
+	int			key_right;
 	int			texx;
 	int			texy;
 	int			path_error;
@@ -170,6 +176,8 @@ void			move_up(t_data *game, t_ray *player);
 void			move_down(t_data *game, t_ray *player);
 void			render(t_data *game);
 int				key_hook(int keycode, t_data *game);
+int				key_release(int keycode, t_data *game);
+int				game_loop(t_data *game);
 void			ft_mlx_destroy_image(t_data *game);
 void			ft_free_pars(t_data *game);
 void			initiate(t_data *game);
