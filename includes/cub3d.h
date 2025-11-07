@@ -187,6 +187,7 @@ int				ft_close1(t_data *game);
 void			check_arg(int ac, char *file);
 char			*ft_strstr(char *str, char *to_find);
 int				is_whitespace(char c);
+int				is_map_space(char c);
 int				parsing_info(t_data *game, char *file);
 int				is_map_line(char *line);
 int				check_doubles(t_data *game);

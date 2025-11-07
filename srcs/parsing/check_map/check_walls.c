@@ -21,7 +21,7 @@ int	check_walls_1(t_data *game)
 	while (game->pars[y])
 	{
 		x = 0;
-		while (game->pars[y][x] && is_whitespace(game->pars[y][x]))
+		while (game->pars[y][x] && is_map_space(game->pars[y][x]))
 			x++;
 		if (game->pars[y][x] && game->pars[y][x] != '1'
 			&& game->pars[y][x] != '\n')
@@ -64,7 +64,7 @@ int	column_has_content(t_data *game, int x)
 	while (game->pars[y])
 	{
 		if (x < (int)ft_strlen(game->pars[y])
-			&& !is_whitespace(game->pars[y][x]))
+			&& !is_map_space(game->pars[y][x]))
 			return (1);
 		y++;
 	}
@@ -83,7 +83,7 @@ int	check_walls_3(t_data *game)
 		{
 			y = 0;
 			while (game->pars[y] != NULL && (x >= (int)ft_strlen(game->pars[y])
-					|| is_whitespace(game->pars[y][x])))
+					|| is_map_space(game->pars[y][x])))
 				y++;
 			if (game->pars[y] == NULL || game->pars[y][x] != '1')
 			{
@@ -105,12 +105,18 @@ int	check_walls_4(t_data *game)
 	while (game->pars[0][x] && game->pars[0][x] != '\n')
 	{
 		y = len_y(game, x) - 1;
+		if (y < 0)
+		{
+			x++;
+			continue ;
+		}
 		while (y >= 0 && x >= (int)ft_strlen(game->pars[y]))
 			y--;
-		while (y >= 0 && is_whitespace(game->pars[y][x]))
+		while (y >= 0 && is_map_space(game->pars[y][x]))
 			y--;
 		if (y >= 0 && game->pars[y][x] != '1')
 		{
+			printf("[DEBUG] Col %d: char='%c' (y=%d)\n", x, game->pars[y][x], y);
 			write(2, "Error\nMap not closed: bottom wall missing\n", 43);
 			return (0);
 		}

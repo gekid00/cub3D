@@ -26,7 +26,7 @@ int	check_items(t_data *game)
 			if (game->pars[y][x] != 'N' && game->pars[y][x] != 'S' &&
 				game->pars[y][x] != 'E' && game->pars[y][x] != 'W'
 				&& game->pars[y][x] != '0' && game->pars[y][x] != '1'
-				&& !is_whitespace(game->pars[y][x]))
+				&& !is_map_space(game->pars[y][x]))
 			{
 				write(2, "Error\nInvalid character in map: '", 34);
 				write(2, &game->pars[y][x], 1);

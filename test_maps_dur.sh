@@ -91,6 +91,7 @@ test_map "maps_dur/valide/test.cub" "valid" "Map test"
 test_map "maps_dur/valide/couloir.cub" "valid" "Map couloir"
 test_map "maps_dur/valide/test_2.cub" "valid" "Map test_2 (lignes irrégulières)"
 test_map "maps_dur/valide/test_3.cub" "valid" "Map test_3 (grande map irrégulière)"
+test_map "maps_dur/valide/test_4.cub" "valid" "Map test_4 (map avec espaces)"
 
 # ============================================
 # TESTS DE BONUS (contiennent P - doors)
@@ -104,7 +105,8 @@ test_map "maps_dur/bonus/couloir.cub" "invalid" "Bonus - Map couloir (contient P
 # ============================================
 echo -e "\n${YELLOW}=== TESTS INVALIDES - STRUCTURE ===${NC}"
 
-test_map "maps_dur/valide/circle.cub" "invalid" "Map circle (lignes vides + 2 maps)"
+test_map "maps_dur/invalide/circle.cub" "invalid" "Map circle (lignes vides + 2 maps)"
+test_map "maps_dur/invalide/test_5.cub" "invalid" "Map test_5 (map ouverte)"
 
 # ============================================
 # TESTS DE MAPS INVALIDES

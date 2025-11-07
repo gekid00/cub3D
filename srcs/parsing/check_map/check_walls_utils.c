@@ -6,7 +6,7 @@
 /*   By: gekido <gekido@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 14:18:52 by acrusoe           #+#    #+#             */
-/*   Updated: 2025/11/06 13:59:20 by gekido           ###   ########.fr       */
+/*   Updated: 2025/11/06 23:10:07 by gekido           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	len_y(t_data *game, int x)
 	{
 		if (x < (int)ft_strlen(game->pars[y]))
 		{
-			if (!is_whitespace(game->pars[y][x]))
+			if (!is_map_space(game->pars[y][x]))
 				last_non_empty = y;
 		}
 		y++;
@@ -46,6 +46,13 @@ int	len_y(t_data *game, int x)
 int	is_whitespace(char c)
 {
 	if ((c >= 9 && c <= 13) || (c == ' '))
+		return (1);
+	return (0);
+}
+
+int	is_map_space(char c)
+{
+	if (c == ' ')
 		return (1);
 	return (0);
 }

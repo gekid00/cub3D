@@ -6,7 +6,7 @@
 /*   By: gekido <gekido@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:30:00 by gekido            #+#    #+#             */
-/*   Updated: 2025/11/06 14:00:00 by gekido           ###   ########.fr       */
+/*   Updated: 2025/11/06 23:08:23 by gekido           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ int	get_max_len(t_data *game)
 	max = 0;
 	while (game->pars[i])
 	{
-		len = ft_strlen(game->pars[i]);
+		len = 0;
+		while (game->pars[i][len] && game->pars[i][len] != '\n')
+			len++;
 		if (len > max)
 			max = len;
 		i++;

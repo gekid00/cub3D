@@ -18,14 +18,6 @@ int	check_map(t_data *game)
 		write(2, "Error\nMap not loaded or empty\n", 31);
 		return (0);
 	}
-	if (check_walls_1(game) == 0)
-		return (0);
-	if (check_walls_2(game) == 0)
-		return (0);
-	if (check_walls_3(game) == 0)
-		return (0);
-	if (check_walls_4(game) == 0)
-		return (0);
 	if (check_items(game) == 0)
 		return (0);
 	if (check_numbers_items(game) == 0)
